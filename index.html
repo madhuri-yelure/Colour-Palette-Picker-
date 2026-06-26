@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Color Palette Picker</title>
+
+  <!-- Internal CSS -->
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#050816;
+      color:white;
+    }
+
+    .container{
+      width:90%;
+      max-width:800px;
+      text-align:center;
+    }
+
+    h1{
+      margin-bottom:30px;
+      font-size:40px;
+    }
+
+    .palette-box{
+      background:white;
+      padding:20px;
+      border-radius:20px;
+      margin-bottom:20px;
+    }
+
+    #colors{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .color-card{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 15px;
+      border-radius:10px;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .color-card:hover{
+      transform:scale(1.02);
+    }
+
+    .left{
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+
+    .circle{
+      width:25px;
+      height:25px;
+      border-radius:50%;
+      border:2px solid white;
+    }
+
+    button{
+      padding:12px 30px;
+      border:none;
+      border-radius:10px;
+      background:#4f46e5;
+      color:white;
+      font-size:18px;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    button:hover{
+      background:#312e81;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>Color Palette Picker</h1>
+
+    <div class="palette-box">
+      <div id="colors"></div>
+    </div>
+
+    <button id="btn">Generate Palette</button>
+
+  </div>
+
+  <!-- Internal JavaScript -->
+  <script>
+
+    const colorsContainer = document.getElementById("colors");
+    const btn = document.getElementById("btn");
+
+    function randomColor(){
+
+      const letters = "0123456789ABCDEF";
+
+      let color = "#";
+
+      for(let i=0; i<6; i++){
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+
+      return color;
+    }
+
+    function generatePalette(){
+
+      colorsContainer.innerHTML = "";
+
+      for(let i=0; i<10; i++){
+
+        const color = randomColor();
+
+        const card = document.createElement("div");
+
+        card.classList.add("color-card");
+
+        card.style.background = color;
+
+        card.innerHTML = `
+        
+          <div class="left">
+
+            <div class="circle" style="background:${color}"></div>
+
+            <span>${i * 100 + 50}</span>
+
+          </div>
+
+          <div>${color}</div>
+
+        `;
+
+        // Copy Hex Code
+        card.addEventListener("click", ()=>{
+
+          navigator.clipboard.writeText(color);
+
+          alert(color + " Copied!");
+
+        });
+
+        colorsContainer.appendChild(card);
+
+      }
+
+    }
+
+    btn.addEventListener("click", generatePalette);
+
+    // Initial Palette
+    generatePalette();
+
+  </script>
+
+</body>
+</html>
